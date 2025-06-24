@@ -4,7 +4,7 @@
   "description": "Using Node, ES6, React, Webpack, and Babel for organizing votes",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-register --recursive",
+    "test": "mocha --require babel-register --require ./test/test_helper.js --recursive",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
@@ -20,6 +20,10 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "chai": "^4.3.7",
+    "chai-immutable": "^2.1.0",
     "mocha": "^11.7.0"
+  },
+  "dependencies": {
+    "immutable": "^3.8.2"
   }
 }
