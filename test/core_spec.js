@@ -42,6 +42,46 @@ describe('application logic'  , () => {
             }));
         });
 
+        it('puts winner of current vote back to entries', () => {
+            const state = Map({
+                vote: Map({
+                    pair: List.of('Interstellar', 'The Matrix'),
+                    tally: Map({
+                        'Interstellar': 3,
+                        'The Matrix': 2
+                    })
+                }),
+                entries: List.of('Inception', 'Dunkirk', 'Tenet')
+            });
+            const nextState = next(state);
+            expect(nextState).to.equal(Map({
+                vote: Map({
+                    pair: List.of('Inception', 'Dunkirk')
+                }),
+                entries: List.of('Tenet', 'Interstellar')
+            }));
+        });
+
+        it('puts both from tied vote back to entries', () => {
+            const state = Map({
+                vote: Map({
+                    pair: List.of('Interstellar', 'The Matrix'),
+                    tally: Map({
+                        'Interstellar': 3,
+                        'The Matrix': 3
+                    })
+                }),
+                entries: List.of('Inception', 'Dunkirk', 'Tenet')
+            });
+            const nextState = next(state);
+            expect(nextState).to.equal(Map({
+                vote: Map({
+                    pair: List.of('Inception', 'Dunkirk')
+                }),
+                entries: List.of('Tenet', 'Interstellar', 'The Matrix')
+            }));
+        });
+
     });
 
     describe('vote', () => {
