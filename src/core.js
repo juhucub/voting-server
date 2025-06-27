@@ -1,4 +1,5 @@
 import { List, Map} from 'immutable';
+export const INITIAL_STATE = Map();
 
 export function setEntries(state, entries) {
     return state.set('entries', List(entries));
@@ -9,10 +10,16 @@ export function next(state) {
     const entries = state.get('entries')
         .concat(getWinners(state.get('vote')))
         .filter(entry => entry); // filter out undefined entries
-    return state.merge({
-        vote: Map({pair: entries.take(2)}),
-        entries: entries.skip(2)
-    });
+    if (entries.size === 1) {
+        return state.remove('vote')
+                    .remove('entries')
+                    .set('winner', entries.first());
+    } else {
+        return state.merge({
+            vote: Map({pair: entries.take(2)}),
+            entries: entries.skip(2)
+        });
+    }
 }
 
 //reach into the nested data structure path ['vote', 'tally', entry] and apply this funt there
@@ -20,7 +27,7 @@ export function next(state) {
 //Of tjere are keys missing along the path, create new Maps in their place.
 export function vote(state, entry) {
     return state.updateIn(
-        ['vote', 'tally', entry],
+        ['tally', entry],
         0,
         tally => tally + 1
     );

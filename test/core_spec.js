@@ -82,30 +82,7 @@ describe('application logic'  , () => {
             }));
         });
 
-    });
-
-    describe('vote', () => {
-
-        it('creates a tally for the voted entry', () => {
-            const state = Map({
-                vote: Map({
-                    pair: List.of('Interstellar', 'The Matrix')
-                }),
-                entries: List()
-            });
-            const nextState = vote(state, 'Interstellar');
-            expect(nextState).to.equal(Map({
-                vote: Map({
-                    pair: List.of('Interstellar', 'The Matrix'),
-                    tally: Map({
-                        'Interstellar': 1
-                    })
-                }),
-                entries: List()
-            }));
-        });
-
-        it('adds to existing tally for voted entry', () => {
+        it('marks the winner when just one entry left', () => {
             const state = Map({
                 vote: Map({
                     pair: List.of('Interstellar', 'The Matrix'),
@@ -116,16 +93,44 @@ describe('application logic'  , () => {
                 }),
                 entries: List()
             });
+            const nextState = next(state);
+            expect(nextState).to.equal(Map({
+                winner: 'Interstellar'
+            }));
+        });
+
+    });
+
+    describe('vote', () => {
+
+        it('creates a tally for the voted entry', () => {
+            const state = Map({
+                    pair: List.of('Interstellar', 'The Matrix')
+                });
             const nextState = vote(state, 'Interstellar');
             expect(nextState).to.equal(Map({
-                vote: Map({
-                    pair: List.of('Interstellar', 'The Matrix'),
-                    tally: Map({
-                        'Interstellar': 4,
-                        'The Matrix': 2
-                    })
-                }),
-                entries: List()
+                pair: List.of('Interstellar', 'The Matrix'),
+                tally: Map({
+                    'Interstellar': 1
+                })
+            }));
+        });
+
+        it('adds to existing tally for voted entry', () => {
+            const state = Map({
+                pair: List.of('Interstellar', 'The Matrix'),
+                tally: Map({
+                    'Interstellar': 3,
+                    'The Matrix': 2
+                })
+            });
+            const nextState = vote(state, 'Interstellar');
+            expect(nextState).to.equal(Map({
+                pair: List.of('Interstellar', 'The Matrix'),
+                tally: Map({
+                    'Interstellar': 4,
+                    'The Matrix': 2
+                })
             }));
         });
 

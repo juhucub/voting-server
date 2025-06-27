@@ -1,9 +1,10 @@
 {
   "name": "voting-server",
   "version": "1.0.0",
-  "description": "Using Node, ES6, React, Webpack, and Babel for organizing votes",
+  "description": "Using Node, ES6, React, Webpack, and Babel for organizing votes. For personal learning purposes.",
   "main": "index.js",
   "scripts": {
+    "start": "babel-node index.js",
     "test": "mocha --require babel-register --require ./test/test_helper.js --recursive",
     "test:watch": "npm run test -- --watch"
   },
@@ -24,6 +25,9 @@
     "mocha": "^11.7.0"
   },
   "dependencies": {
-    "immutable": "^3.8.2"
+    "babel-cli": "^6.26.0",
+    "immutable": "^3.8.2",
+    "redux": "^5.0.1",
+    "socket.io": "^4.8.1"
   }
 }
